@@ -1,0 +1,43 @@
+<div *ngIf="tournamentData" class="container col-md-4">
+  <div class="card m-2" *ngFor="let sport of tournamentData; let sportIndex = index">
+    <div class="card-header">
+      <h2>{{ sport.game }}</h2>
+    </div>
+    <div *ngFor="let team of sport.teams; let teamIndex = index" class="card-body">
+      <div class="card-title">
+        <h4>{{ team.team_name }} ({{ team.players.length }})</h4>
+      </div>
+      <form [formGroup]="newPlayerForm" (ngSubmit)="addNewPlayer(team.team_name)">
+        <div class="row g-2 mb-1">
+          <div class="col-md-5">
+            <input class="form-control" formControlName="name" placeholder="Name" />
+          </div>
+          <div class="col-md-5">
+            <input class="form-control" formControlName="age" placeholder="Age" />
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary btn-width" type="submit">Add</button>
+          </div>
+        </div>
+      </form>
+      <div>
+        <div *ngFor="let player of team.players; let playerIndex = index" >
+          <form [formGroup]="playerForm[sportIndex][teamIndex][playerIndex]" (ngSubmit)="savePlayer(sportIndex, teamIndex, playerIndex)">
+            <div class="row g-2 mb-1">
+              <div class="col-md-5">
+                <input class="form-control" formControlName="name" placeholder="Name" />
+              </div>
+              <div class="col-md-5">
+                <input class="form-control" type="number" [min]="18" [max]="45" formControlName="age" placeholder="Age" />
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-success btn-width" type="submit">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading">Loading...</div>

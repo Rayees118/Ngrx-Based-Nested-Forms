@@ -1,0 +1,4 @@
+<div *ngIf="tournamentData$ | async as tournamentData">
+  <app-dashboard [tournamentData]="tournamentData"></app-dashboard>
+</div>
+<div *ngIf="loading$ | async">Loading...</div>
